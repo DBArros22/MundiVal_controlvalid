@@ -50,11 +50,12 @@ function processarAlterarSenha() {
     localStorage.setItem("usuarios", JSON.stringify(lista));
     
     fecharModalSenha();
-    dispararModal("Sucesso", "Senha updated com sucesso!");
+    dispararModal("Sucesso", "Senha atualizada com sucesso!");
 }
 
 function renderizarListaSecoes() {
     const container = document.getElementById("lista-secoes-interativas");
+    if (!container) return;
     container.innerHTML = "";
 
     let produtos = JSON.parse(localStorage.getItem("produtos_cadastrados")) || [];
@@ -173,7 +174,27 @@ function deslogar() {
 function buscarProdutoPorCodigo() {
     const cod = document.getElementById("prod-codigo").value.trim();
     const descInput = document.getElementById("prod-descricao");
+
+    let produtos = JSON.parse(localStorage.getItem("produtos_cadastrados")) || [];
     
+    let encontradoNoSistema = produtos.find(p => 
+        p.codigo === cod || (p.codigosBarras && p.codigosBarras.includes(cod))
+    );
+
+    if (encontradoNoSistema) {
+        document.getElementById("prod-codigo").value = encontradoNoSistema.codigo;
+        descInput.value = encontradoNoSistema.descricao;
+        descInput.readOnly = true;
+        document.getElementById("prod-setor").value = encontradoNoSistema.setor;
+        atualizarSubsetores();
+        document.getElementById("prod-subsetor").value = encontradoNoSistema.subsetor;
+        
+        if (document.getElementById("prod-codigo-barras") && encontradoNoSistema.codigosBarras && encontradoNoSistema.codigosBarras.length > 0) {
+            document.getElementById("prod-codigo-barras").value = encontradoNoSistema.codigosBarras[encontradoNoSistema.codigosBarras.length - 1];
+        }
+        return;
+    }
+
     if (bancoProdutos[cod]) {
         descInput.value = bancoProdutos[cod];
         descInput.readOnly = true;
@@ -184,69 +205,32 @@ function buscarProdutoPorCodigo() {
     }
 }
 
-function salvarProduto(event) {
-    event.preventDefault();
-
-    const idEdicao = document.getElementById("prod-id-edicao") ? document.getElementById("prod-id-edicao").value : "";
-    const codigo = document.getElementById("prod-codigo").value;
-    const descricao = document.getElementById("prod-descricao").value;
-    const setor = document.getElementById("prod-setor").value;
-    const subsetor = document.getElementById("prod-subsetor").value;
-    const validade = document.getElementById("prod-validade").value;
-    const lote = document.getElementById("prod-lote").value;
-    const qtd = document.getElementById("prod-qtd").value;
-
-    let Court = JSON.parse(localStorage.getItem("produtos_cadastrados")) || [];
-    let produtoExistenteIndex = Court.findIndex(p => p.codigo === codigo);
-
-    if (produtoExistenteIndex !== -1 && !idEdicao) {
-        let produtoVelho = Court[produtoExistenteIndex];
-        
-        if (produtoVelho.status !== "esgotado") {
-            let historico = JSON.parse(localStorage.getItem("historico_baixas")) || [];
-            historico.push({
-                idLog: Date.now(),
-                codigo: produtoVelho.codigo,
-                descricao: produtoVelho.descricao,
-                setor: produtoVelho.setor,
-                subsetor: produtoVelho.subsetor,
-                lote: produtoVelho.lote,
-                qtdBaixada: produtoVelho.qtd,
-                validadeOriginal: produtoVelho.validade,
-                baixadoPor: "Sistema (Reposição de Estoque)",
-                dataBaixa: new Date().toLocaleDateString('pt-BR') + " (Atualização)"
-            });
-            localStorage.setItem("historico_baixas", JSON.stringify(historico));
-        }
-
-        Court[produtoExistenteIndex] = {
-            id: produtoVelho.id,
-            codigo, descricao, setor, subsetor, validade, lote, qtd, status: "ativo"
-        };
-        dispararModal("Sucesso", "Novo lote registrado. Lote anterior salvo no histórico!");
-    } else if (idEdicao) {
-        let idx = Court.findIndex(p => p.id == idEdicao);
-        if (idx !== -1) {
-            Court[idx] = { ...Court[idx], codigo, descricao, setor, subsetor, validade, lote, qtd, status: "ativo" };
-        }
-        dispararModal("Sucesso", "Dados do produto editados com sucesso!");
-    } else {
-        Court.push({
-            id: Date.now(),
-            codigo, descricao, setor, subsetor, validade, lote, qtd, status: "ativo"
-        });
-        dispararModal("Sucesso", "Produto integrado e salvo na subseção com sucesso!");
-    }
-
-    localStorage.setItem("produtos_cadastrados", JSON.stringify(Court));
-    document.getElementById("form-produto").reset();
-    if (document.getElementById("prod-id-edicao")) document.getElementById("prod-id-edicao").value = "";
-    if (document.getElementById("titulo-formulario-cadastro")) document.getElementById("titulo-formulario-cadastro").innerText = "Registar / Atualizar Entrada de Lote";
-    if (document.getElementById("btn-cancelar-edicao")) document.getElementById("btn-cancelar-edicao").classList.add("hidden");
+// Nova Lógica: Busca por digitação e bipe imediato no campo ampliado de barras
+function buscarProdutoPorCodigoBarrasDigitado() {
+    const barrasInput = document.getElementById("prod-codigo-barras");
+    if (!barrasInput) return;
     
-    atualizarSubsetores();
-    renderizarTabelaCadastro();
-    verificarAlertasGlobais();
+    const valorBarras = barrasInput.value.trim();
+    const descInput = document.getElementById("prod-descricao");
+    
+    // Inicia a busca se o usuário digitou ou bipou um código com 6 ou mais dígitos
+    if (valorBarras.length >= 6) {
+        let produtos = JSON.parse(localStorage.getItem("produtos_cadastrados")) || [];
+        
+        // Procura no sistema se algum produto já usou esse código de barras antes
+        let encontrado = produtos.find(p => p.codigosBarras && p.codigosBarras.includes(valorBarras));
+        
+        if (encontrado) {
+            // Preenche tudo automaticamente com os dados do produto já existente
+            document.getElementById("prod-codigo").value = encontrado.codigo;
+            descInput.value = encontrado.descricao;
+            descInput.readOnly = true;
+            document.getElementById("prod-setor").value = encontrado.setor;
+            atualizarSubsetores();
+            document.getElementById("prod-subsetor").value = encontrado.subsetor;
+            return; // Encerrou a busca com sucesso
+        }
+    }
 }
 
 function darBaixa(id) {
@@ -255,17 +239,18 @@ function darBaixa(id) {
 
 function renderizarTabelaCadastro() {
     const tbody = document.getElementById("tabela-todos-produtos");
+    if (!tbody) return;
     tbody.innerHTML = "";
     let produtos = JSON.parse(localStorage.getItem("produtos_cadastrados")) || [];
     
     const inputBusca = document.getElementById("busca-codigo-tabela");
     const termoBusca = inputBusca ? inputBusca.value.trim().toLowerCase() : "";
 
-    // Filtro otimizado: Compara o termo com o código interno ou com a descrição textual
     if (termoBusca) {
         produtos = produtos.filter(p => 
             p.codigo.toLowerCase().includes(termoBusca) || 
-            p.descricao.toLowerCase().includes(termoBusca)
+            p.descricao.toLowerCase().includes(termoBusca) ||
+            (p.codigosBarras && p.codigosBarras.some(cb => cb.toLowerCase().includes(termoBusca)))
         );
     }
 
@@ -302,8 +287,8 @@ function filtrarTabelaCadastro() {
 }
 
 function prepararEdicao(id) {
-    let produtos = JSON.parse(localStorage.getItem("produtos_cadastrados")) || [];
-    let p = produtos.find(item => item.id === id);
+    let framework = JSON.parse(localStorage.getItem("produtos_cadastrados")) || [];
+    let p = framework.find(item => item.id === id);
     
     if (p) {
         if (document.getElementById("prod-id-edicao")) document.getElementById("prod-id-edicao").value = p.id;
@@ -315,6 +300,14 @@ function prepararEdicao(id) {
         document.getElementById("prod-validade").value = p.status === "esgotado" ? "" : p.validade;
         document.getElementById("prod-lote").value = p.status === "esgotado" ? "" : p.lote;
         document.getElementById("prod-qtd").value = p.status === "esgotado" ? "" : p.qtd;
+        
+        if (document.getElementById("prod-codigo-barras")) {
+            if (p.codigosBarras && p.codigosBarras.length > 0) {
+                document.getElementById("prod-codigo-barras").value = p.codigosBarras[p.codigosBarras.length - 1];
+            } else {
+                document.getElementById("prod-codigo-barras").value = "";
+            }
+        }
         
         if (document.getElementById("titulo-formulario-cadastro")) {
             document.getElementById("titulo-formulario-cadastro").innerText = "Atualizar / Dar Entrada em: " + p.codigo;
@@ -460,6 +453,7 @@ const subSetoresPorSetor = {
 function atualizarSubsetores() {
     const setorSelecionado = document.getElementById("prod-setor").value;
     const subsetorSelect = document.getElementById("prod-subsetor");
+    if (!subsetorSelect) return;
     
     subsetorSelect.innerHTML = "";
     
@@ -511,6 +505,7 @@ function atualizarFiltroSubsetores() {
 
 function renderizarProdutosDaSecao() {
     const container = document.getElementById("container-produtos-filtrados");
+    if (!container) return;
     container.innerHTML = "";
 
     let produtos = JSON.parse(localStorage.getItem("produtos_cadastrados")) || [];
@@ -580,6 +575,7 @@ function darBaixaInterna(id) {
             lote: p.lote,
             qtdBaixada: p.qtd,
             validadeOriginal: p.validade,
+            codigosBarrasNoMomento: p.codigosBarras ? [...p.codigosBarras] : [],
             baixadoPor: usuarioLogado.nome,
             dataBaixa: `${dataFormatada} às ${horaFormatada}`
         });
@@ -605,3 +601,55 @@ function abrirSecaoProdutos(secao) {
     
     renderizarProdutosDaSecao();
 }
+
+// --- CONTROLE DE CAPTURA E DIRECIONAMENTO DO HARDWARE DO SCANNER ---
+
+function focarScannerConsulta() {
+    const inputBusca = document.getElementById("busca-codigo-tabela");
+    if (inputBusca) {
+        inputBusca.focus();
+        inputBusca.select();
+        dispararModal("Scanner Ativo", "O campo de busca está pronto. Pode passar o código de barras no leitor!");
+    }
+}
+
+function focarScannerCadastro() {
+    const inputBarras = document.getElementById("prod-codigo-barras");
+    if (inputBarras) {
+        inputBarras.focus();
+        inputBarras.select();
+        dispararModal("Scanner Ativo", "O campo ampliado de Código de Barras está pronto. Pode passar o leitor!");
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const inputBuscaTabela = document.getElementById("busca-codigo-tabela");
+    if (inputBuscaTabela) {
+        inputBuscaTabela.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                filtrarTabelaCadastro();
+            }
+        });
+    }
+
+    const inputProdCodigo = document.getElementById("prod-codigo");
+    if (inputProdCodigo) {
+        inputProdCodigo.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                buscarProdutoPorCodigo();
+            }
+        });
+    }
+    
+    const inputProdBarras = document.getElementById("prod-codigo-barras");
+    if (inputProdBarras) {
+        inputProdBarras.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                buscarProdutoPorCodigoBarrasDigitado();
+            }
+        });
+    }
+});
