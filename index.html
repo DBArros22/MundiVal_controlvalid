@@ -78,6 +78,14 @@
             
             <div class="card" id="area-cadastro">
                 <h3 id="titulo-formulario-cadastro">Registrar / Atualizar Entrada de Lote</h3>
+                
+                <div class="container-scanner-indicador" style="margin-bottom: 15px;">
+                    <button type="button" class="btn-scanner-foco" onclick="focarScannerCadastro()" style="background: #34495e; color: #fff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: bold; width: 100%; justify-content: center;">
+                        <span>📊</span> 
+                        <span>Bipar Código de Barras (Ativar Leitor)</span>
+                    </button>
+                </div>
+
                 <form id="form-produto" onsubmit="salvarProduto(event)">
                     <input type="hidden" id="prod-id-edicao">
                     
@@ -86,6 +94,16 @@
                             <label>Código Interno:</label>
                             <input type="text" id="prod-codigo" oninput="buscarProdutoPorCodigo()" placeholder="00000" maxlength="5" required>
                         </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group" style="width: 100%;">
+                            <label>Código de Barras (EAN):</label>
+                            <input type="text" id="prod-codigo-barras" oninput="buscarProdutoPorCodigoBarrasDigitado()" placeholder="Bipe ou digite o código de barras (Ex: 13 dígitos)" maxlength="20" style="width: 100%; box-sizing: border-box;">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
                         <div class="form-group form-group-descricao">
                             <label>Descrição:</label>
                             <input type="text" id="prod-descricao" placeholder="Preenchido automaticamente pela base" readonly required>
@@ -132,7 +150,7 @@
                 <h3>Todos os Produtos no Sistema</h3>
                 
                 <div class="search-container" style="display: flex; gap: 8px; margin-bottom: 15px;">
-                    <input type="text" id="busca-codigo-tabela" placeholder="🔍 Pesquisar código interno..." style="margin: 0;">
+                    <input type="text" id="busca-codigo-tabela" placeholder="🔍 Pesquisar código interno, descrição ou barras..." style="margin: 0;">
                     <button class="btn-primary" style="width: auto; padding: 0 20px;" onclick="filtrarTabelaCadastro()">Buscar</button>
                 </div>
 
@@ -156,6 +174,14 @@
             <button class="btn-back" onclick="navegarPara('menu')">← Voltar ao Menu</button>
             <div class="card">
                 <h3>Categorias de Monitorização</h3>
+                
+                <div class="container-scanner-indicador" style="margin-bottom: 15px;">
+                    <button type="button" class="btn-scanner-foco" onclick="focarScannerConsulta()" style="background: #34495e; color: #fff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: bold; width: 100%; justify-content: center;">
+                        <span>📊</span> 
+                        <span>Área do Scanner (Clique para bipar na Consulta)</span>
+                    </button>
+                </div>
+
                 <div id="lista-secoes-interativas"></div>
             </div>
         </div>
