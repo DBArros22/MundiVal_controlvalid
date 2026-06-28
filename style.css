@@ -1,17 +1,29 @@
 :root {
-    --primary: #1e3c72;         /* Azul Profundo Corporativo */
-    --primary-light: #2a5298;   /* Azul Intermediário */
-    --accent: #f39c12;          /* Laranja Principal */
-    --accent-hover: #d35400;    /* Laranja Escuro para Hover */
+    /* Cores Calibradas e Modernas */
+    --primary: #2554a3;         
+    --primary-light: #346ec9;   
+    --blue-main: #2554a3;
+    --blue-dark: #193b75;
+
+    --accent: #ff8c00;          
+    --accent-hover: #e06c00;    
+    --orange-main: #ff8c00;
+    --orange-hover: #e06c00;
+
     --success: #2ecc71;
     --danger: #e74c3c;
     --warning: #f1c40f;
-    --bg-light: rgba(245, 247, 250, 0.85); /* Fundo sutilmente transparente para revelar a imagem */
+    --bg-light: rgba(245, 247, 250, 0.85); 
     --text-dark: #2d3748;
     --text-muted: #718096;
     --border-color: #e2e8f0;
-    --radius: 8px;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    
+    /* Cantos elegantes e arredondados */
+    --radius: 12px;
+    
+    /* Sombras suaves de profundidade profissional */
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+    --white: #ffffff;
 }
 
 * {
@@ -22,7 +34,6 @@
 }
 
 body {
-    /* O fundo do body agora é semi-transparente, permitindo ver a imagem embaçada que está atrás */
     background-color: rgba(245, 247, 250, 0.90); 
     color: var(--text-dark);
     line-height: 1.6;
@@ -30,7 +41,6 @@ body {
     min-height: 100vh;
 }
 
-/* --- ESPAÇO LIVRE PARA ANEXAR SUA IMAGEM DE PREFERÊNCIA --- */
 body::before {
     content: "";
     position: fixed;
@@ -38,48 +48,47 @@ body::before {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: -2; /* Fica totalmente atrás de todas as camadas */
-    
-    /* ALTERE APENAS O NOME DO ARQUIVO ABAIXO PARA O DA SUA LOGO/IMAGEM (EX: 'marca.png') */
-    background-image: url('logo_mundival.png'); 
-    
+    z-index: -2; 
+    background-image: url('logomundival--.png'); 
     background-position: center;
     background-repeat: no-repeat;
-    background-size: contain; /* Mantém as proporções da sua logo sem distorcer */
-    
-    /* VALOR DO EMBAÇADO (BLUR) */
+    background-size: contain; 
     filter: blur(12px); 
     -webkit-filter: blur(12px); 
-    
-    /* OPACIDADE AJUSTADA PARA MAIOR VISIBILIDADE (30%) */
     opacity: 0.30; 
-    
-    transform: scale(1.08); /* Elimina bordas brancas geradas pelo desfoque */
+    transform: scale(1.08); 
     pointer-events: none; 
+}
+
+/* Container de Layout - Centraliza o app e evita que ele cole nas bordas da tela */
+.app-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .hidden {
     display: none !important;
 }
 
-/* --- TELA DE AUTENTICAÇÃO COM DEGRADE AZUL E DETALHES LARANJA --- */
+/* --- TELA DE AUTENTICAÇÃO --- */
 .auth-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, rgba(30, 60, 114, 0.85) 0%, rgba(42, 82, 152, 0.85) 100%);
+    min-height: 90vh;
     padding: 20px;
 }
 
 .auth-box {
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--white);
     padding: 40px 30px;
     border-radius: 16px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 420px;
-    border-top: 5px solid var(--accent); /* Barra proeminente em Laranja no topo do card */
+    border-top: 5px solid var(--orange-main); 
 }
 
 .logo-area {
@@ -95,7 +104,6 @@ body::before {
     margin-bottom: 4px;
 }
 
-/* Subtítulo realçado em Laranja */
 .logo-area p {
     color: var(--accent);
     font-size: 14px;
@@ -112,7 +120,6 @@ body::before {
     text-align: center;
 }
 
-/* Inputs com foco em Laranja */
 .auth-box input {
     width: 100%;
     padding: 14px 16px;
@@ -130,7 +137,7 @@ body::before {
     outline: none;
     border-color: var(--accent);
     background-color: #ffffff;
-    box-shadow: 0 0 0 4px rgba(243, 156, 18, 0.15);
+    box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.15);
 }
 
 .auth-box input::placeholder {
@@ -156,18 +163,24 @@ body::before {
     text-decoration: underline;
 }
 
-/* --- BARRA NO TOPO PREMIUM (COMBINAÇÃO AZUL & LARANJA) --- */
+/* --- BARRA NO TOPO PREMIUM --- */
 .main-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
     color: #ffffff;
-    padding: 16px 32px;
-    border-radius: 12px;
-    margin-bottom: 30px;
+    padding: 20px 30px;
+    border-radius: var(--radius);
+    margin-bottom: 25px;
     box-shadow: var(--shadow);
-    border-bottom: 4px solid var(--accent); /* Detalhe inferior em Laranja expandido */
+    border-bottom: 4px solid var(--accent); 
+    flex-direction: column;
+    gap: 15px;
+}
+
+@media(min-width: 768px) {
+    .main-header { flex-direction: row; justify-content: space-between; align-items: center; }
 }
 
 .header-brand h1 {
@@ -179,13 +192,16 @@ body::before {
 .user-profile {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
+
+@media(min-width: 768px) { .user-profile { justify-content: flex-end; } }
 
 .user-meta {
     display: flex;
     flex-direction: column;
-    text-align: right;
 }
 
 .user-meta span#txt-nome-usuario {
@@ -197,25 +213,26 @@ body::before {
     background-color: var(--accent);
     color: #ffffff;
     padding: 3px 10px;
-    border-radius: 20px;
+    border-radius: 6px;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.5px;
     margin-top: 4px;
-    align-self: flex-end;
+    align-self: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+@media(min-width: 768px) { .badge { align-self: flex-end; } }
+
 .header-actions {
     display: flex;
-    gap: 12px;
+    gap: 10px;
 }
 
-/* Botões do Topo Aperfeiçoados */
 .btn-header {
     border: none;
     padding: 10px 16px;
-    border-radius: var(--radius);
+    border-radius: 8px;
     cursor: pointer;
     font-weight: 700;
     font-size: 13px;
@@ -223,41 +240,37 @@ body::before {
     align-items: center;
     gap: 6px;
     transition: all 0.2s ease;
+    touch-action: manipulation;
 }
 
-/* Trocar Senha destacado em Laranja Sutil */
 .btn-header-pwd {
-    background-color: rgba(243, 156, 18, 0.2);
+    background-color: rgba(255, 255, 255, 0.15);
     color: #ffffff;
-    border: 1px solid var(--accent);
 }
 
 .btn-header-pwd:hover {
-    background-color: var(--accent);
-    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.25);
     transform: translateY(-1px);
 }
 
 .btn-header-logout {
-    background-color: #e74c3c;
+    background-color: var(--danger);
     color: #ffffff;
-    box-shadow: 0 2px 4px rgba(231, 76, 60, 0.2);
 }
 
 .btn-header-logout:hover {
     background-color: #c0392b;
-    transform: translateY(-1px);
 }
 
 /* --- BANNER DE ALERTA DE VENCIMENTO --- */
 .alert-banner {
     display: flex;
-    background-color: rgba(255, 250, 240, 0.95);
-    border-left: 5px solid var(--accent); /* Reforço do Laranja */
-    color: #7b341e;
+    background-color: #fff3cd;
+    border-left: 5px solid var(--orange-main); 
+    color: #856404;
     padding: 16px 24px;
     border-radius: var(--radius);
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     gap: 16px;
     box-shadow: var(--shadow);
 }
@@ -277,41 +290,46 @@ body::before {
     font-size: 14px;
 }
 
-/* --- MENU PRINCIPAL (GRID COM TOQUE AZUL) --- */
+/* --- CARDS DO INICIO (Ajustados para não estourar as bordas) --- */
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: 1fr;
     gap: 24px;
-    margin-top: 20px;
+    margin: 20px auto 0 auto;
+    width: 100%;
+    max-width: 1000px; /* Evita que os dois cards fiquem gigantescos em telas largas */
 }
 
+@media(min-width: 600px) { .menu-grid { grid-template-columns: 1fr 1fr; } }
+
 .menu-card {
-    background: rgba(255, 255, 255, 0.85); /* Fundo translúcido */
-    padding: 35px 24px;
-    border-radius: 12px;
+    background: var(--white); /* Mudado para fundo branco para suavizar e dar elegância */
+    padding: 40px 30px;       /* Ajuste de respiro interno equilibrado */
+    border-radius: var(--radius);
     text-align: center;
     cursor: pointer;
     box-shadow: var(--shadow);
-    transition: all 0.2s ease-in-out;
-    border: 1px solid #edf2f7;
-    border-bottom: 4px solid var(--primary);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--border-color);
+    border-top: 5px solid var(--blue-main); /* Linha indicativa premium */
 }
 
 .menu-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    border-bottom-color: var(--accent); /* Muda para laranja ao passar o rato */
-    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-5px);
+    border-color: var(--orange-main);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
 }
 
-.card-icon {
-    font-size: 44px;
+.menu-card .card-icon {
+    font-size: 48px;
     margin-bottom: 16px;
+    display: inline-block;
 }
 
 .menu-card h3 {
-    margin-bottom: 10px;
-    color: var(--primary);
+    margin-bottom: 12px;
+    color: var(--blue-main);
+    font-size: 20px;
     font-weight: 700;
 }
 
@@ -321,579 +339,213 @@ body::before {
 }
 
 /* --- BOTÕES E ELEMENTOS FORMULÁRIOS --- */
-.btn-primary {
-    background-color: var(--primary);
-    color: #ffffff;
-    border: none;
-    padding: 14px 24px;
-    border-radius: var(--radius);
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 15px;
-    width: 100%;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 6px rgba(30, 60, 114, 0.15);
-}
-
-.btn-primary:hover {
-    background-color: var(--primary-light);
-    transform: translateY(-1px);
-}
-
-/* Botão de Gravar Lote - Laranja Puro */
-.btn-orange {
-    background-color: var(--accent) !important;
-    color: white !important;
-    box-shadow: 0 4px 6px rgba(243, 156, 18, 0.2) !important;
-}
-
-.btn-orange:hover {
-    background-color: var(--accent-hover) !important;
-    box-shadow: 0 6px 8px rgba(243, 156, 18, 0.3) !important;
-}
-
-.btn-danger {
-    background-color: var(--danger);
-}
-
-.btn-danger:hover {
-    background-color: #c0392b;
-}
-
-.btn-back {
-    background: rgba(237, 242, 247, 0.9);
-    color: var(--text-dark);
-    border: 1px solid var(--border-color);
-    padding: 10px 20px;
-    border-radius: var(--radius);
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 14px;
-    margin-bottom: 20px;
-    transition: all 0.2s;
-}
-
-.btn-back:hover {
-    background: #e2e8f0;
-}
-
-/* --- CARTÕES DE CONTEÚDO (CARDS) --- */
-.card {
-    background: rgba(255, 255, 255, 0.88); /* Leve transparência para expor o fundo */
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    margin-bottom: 30px;
-    border: 1px solid #edf2f7;
-    border-top: 3px solid var(--accent); /* Linha de marcação laranja nos painéis */
-}
-
-.card h3 {
-    margin-bottom: 24px;
-    color: var(--primary);
-    font-weight: 700;
-    border-bottom: 2px solid #edf2f7;
-    padding-bottom: 12px;
-}
-
-/* FORMULÁRIOS FLEXÍVEIS */
-.form-row {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-.form-group {
-    flex: 1;
-    min-width: 180px;
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group-codigo {
-    flex: 0 0 160px;
-}
-
-.form-group-descricao {
-    flex: 2;
-}
-
-.form-group label {
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    color: var(--text-dark);
-}
-
-.form-group input, .form-group select {
-    padding: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius);
-    font-size: 14px;
-    background-color: #ffffff;
-    transition: border 0.2s;
-}
-
-.form-group input:focus, .form-group select:focus {
-    outline: none;
-    border-color: var(--accent); /* Foco dos inputs agora é Laranja */
-}
-
-.form-group input[readonly] {
-    background-color: #f7fafc;
-    color: #4a5568;
-    cursor: not-allowed;
-    border-color: #e2e8f0;
-}
-
-/* --- TABELAS MODERNAS --- */
-.table-responsive {
-    width: 100%;
-    overflow-x: auto;
-}
-
-.modern-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    font-size: 14px;
-}
-
-.modern-table th, .modern-table td {
-    padding: 14px 18px;
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.modern-table th {
-    background-color: rgba(248, 250, 252, 0.9);
-    color: var(--text-dark);
-    font-weight: 700;
-}
-
-.modern-table tbody tr:hover {
-    background-color: rgba(248, 250, 252, 0.7);
-}
-
-.btn-acao-tabela {
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 6px 10px;
-    border-radius: var(--radius);
-}
-
-.btn-acao-edit {
-    background-color: #edf2f7;
-}
-
-.btn-acao-edit:hover {
-    background-color: #e2e8f0;
-}
-
-/* --- SEÇÕES INTERATIVAS (CONSULTA) --- */
-#lista-secoes-interativas {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 16px;
-}
-
-.btn-secao-link {
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid var(--border-color);
-    padding: 18px;
-    border-radius: var(--radius);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    font-weight: 600;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    transition: all 0.2s ease;
-}
-
-.btn-secao-link:hover {
-    background: var(--primary);
-    color: #ffffff;
-    border-color: var(--primary);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
-}
-
-.badge-qtd {
-    background: #e2e8f0;
-    color: var(--text-dark);
-    padding: 3px 8px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-}
-
-.btn-secao-link:hover .badge-qtd {
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-}
-
-/* --- PRODUTOS EM FILAS (MOBILE-FIRST) --- */
-.prod-row-mobile {
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid var(--border-color);
-    padding: 18px;
-    border-radius: var(--radius);
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-}
-
-.prod-info-meta {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-top: 4px;
-}
-
-.prod-row-mobile.urgente, .btn-secao-link.alerta-vencimento {
-    border-left: 5px solid var(--danger);
-    background-color: rgba(255, 250, 240, 0.95);
-}
-
-.status-esgotado, .prod-row-mobile.esgotado {
-    background-color: rgba(248, 250, 252, 0.6) !important;
-    opacity: 0.6;
-}
-
-.text-esgotado {
-    color: var(--text-muted);
-    font-weight: 600;
-}
-
-/* --- MODAIS CUSTOMIZADOS --- */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(4px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-}
-
-.modal-box {
-    background: #ffffff;
-    padding: 32px;
-    border-radius: 16px;
-    width: 90%;
-    max-width: 420px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    text-align: center;
-    border-top: 4px solid var(--accent);
-}
-
-.modal-box h3 {
-    margin-bottom: 12px;
-    color: var(--text-dark);
-    font-weight: 700;
-}
-
-.modal-box p {
-    margin-bottom: 24px;
-    font-size: 14px;
-    color: var(--text-muted);
-}
-
-.modal-box input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 16px;
-    border: 2px solid var(--border-color);
-    border-radius: var(--radius);
-}
-
-/* --- ÁREA DO SCANNER COM IDENTIDADE AZUL & LARANJA --- */
-.btn-scanner-foco {
-    background: var(--primary) !important;
-    color: #ffffff !important;
-    border: 2px solid var(--accent) !important; /* Borda laranja reforçada */
-    transition: all 0.2s ease;
-}
-.btn-scanner-foco:hover {
-    background: var(--accent) !important;
-    color: #ffffff !important;
-    transform: translateY(-1px);
-    box-shadow: var(--shadow);
-}
-.btn-scanner-foco:active {
-    transform: scale(0.99);
-}
-    font-size: 15px;
-}
-
-.hidden { display: none !important; }
-
-/* Telas de Autenticação */
-.auth-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 90vh;
-}
-.auth-box {
-    background: var(--white);
-    width: 100%;
-    max-width: 380px;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(15, 32, 66, 0.1);
-    border-top: 5px solid var(--orange-main); /* Linha Laranja no Topo */
-}
-.logo-area { text-align: center; margin-bottom: 20px; }
-.logo-area h2 { color: var(--blue-main); font-size: 26px; font-weight: 800; }
-.logo-area p { font-size: 12px; color: #64748b; }
-.auth-switch { text-align: center; font-size: 13px; margin-top: 15px; }
-
-/* Container do Aplicativo */
-.app-container {
-    max-width: 750px;
-    margin: 0 auto;
-}
-
-/* Header & Botões Superiores Modernos */
-.main-header {
-    background: var(--blue-main); /* Topo Azul Escuro */
-    color: var(--white);
-    padding: 15px;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 12px rgba(15, 32, 66, 0.15);
-}
-@media(min-width: 480px) {
-    .main-header { flex-direction: row; justify-content: space-between; align-items: center; }
-}
-.main-header h1 { font-size: 20px; font-weight: 700; color: var(--white); }
-.user-profile { text-align: left; }
-@media(min-width: 480px) { .user-profile { text-align: right; } }
-.user-meta { font-size: 13px; margin-bottom: 5px; display: flex; gap: 5px; align-items: center; }
-@media(min-width: 480px) { .user-meta { justify-content: flex-end; } }
-
-/* Crachá do Perfil em Laranja */
-.badge { 
-    background: var(--orange-main); 
-    color: var(--white);
-    padding: 3px 8px; 
-    border-radius: 4px; 
-    font-size: 10px; 
-    font-weight: bold; 
-}
-
-.header-actions { display: flex; gap: 8px; }
-@media(min-width: 480px) { .header-actions { justify-content: flex-end; } }
-.btn-header {
-    border: none; padding: 8px 12px; font-size: 12px; border-radius: 6px; cursor: pointer; font-weight: 600; color: #fff;
-    touch-action: manipulation;
-}
-.btn-header-pwd { background: rgba(255, 255, 255, 0.15); }
-.btn-header-pwd:hover { background: rgba(255, 255, 255, 0.25); }
-.btn-header-logout { background: var(--danger); }
-.btn-header-logout:active { background: #c0392b; }
-
-/* Inputs Customizados Responsivos e Modernos */
 input, select {
     width: 100%;
-    padding: 11px 14px;
+    padding: 12px 16px;
     margin-top: 6px;
     margin-bottom: 14px;
     border: 1.5px solid var(--border-color);
     border-radius: 8px;
     font-size: 14px;
-    color: var(--text-color);
-    background-color: #fff;
+    color: var(--text-dark);
+    background-color: #ffffff;
     transition: border-color 0.2s, box-shadow 0.2s;
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
 }
+
 input:focus, select:focus { 
     outline: none; 
-    border-color: var(--orange-main); /* Foco Laranja */
-    box-shadow: 0 0 0 3px rgba(255, 122, 0, 0.15);
+    border-color: var(--orange-main); 
+    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.15);
 }
+
 input[readonly] {
     background-color: #f8fafc;
     color: #64748b;
     border-style: dashed;
     cursor: not-allowed;
 }
+
 label { font-size: 13px; font-weight: 600; color: #475569; }
-.form-row { display: flex; gap: 10px; }
-.form-group { flex: 1; }
 
-/* Ajuste específico para encolher a input do código de 5 dígitos */
-.form-group-codigo { flex: 0 0 110px; }
-.form-group-descricao { flex: 1; }
-
-/* Botões do Sistema */
-.btn-primary {
-    background: var(--blue-main); 
-    color: var(--white); 
-    padding: 12px; 
-    border: none; 
-    border-radius: 8px;
-    font-size: 15px; 
-    font-weight: 600; 
-    cursor: pointer; 
-    width: 100%; 
-    touch-action: manipulation;
-    transition: background-color 0.2s, transform 0.1s;
-}
-.btn-primary:active { background: var(--blue-dark); transform: scale(0.99); }
-
-/* Botão Principal Laranja */
-.btn-orange { 
-    background: var(--orange-main) !important; 
-    color: var(--white) !important;
-}
-.btn-orange:hover { background: var(--orange-hover) !important; }
-.btn-orange:active { transform: scale(0.99); }
-
-.btn-back { background: none; border: none; color: var(--blue-main); font-weight: bold; margin-bottom: 15px; cursor: pointer; font-size: 15px; }
-
-/* Grid de Menu de Opções (Estilo Azul Forte com Detalhes Laranja) */
-.menu-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
-@media(min-width: 480px) { .menu-grid { grid-template-columns: 1fr 1fr; } }
-
-.menu-card {
-    background: var(--blue-main); /* Fundo totalmente em Azul Escuro */
-    padding: 25px 20px; 
-    border-radius: 12px; 
-    text-align: center;
-    border-bottom: 5px solid var(--orange-main); /* Linha Inferior Laranja */
-    box-shadow: 0 4px 15px rgba(15, 32, 66, 0.15); 
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-.menu-card:hover { 
-    background: var(--blue-dark);
-    transform: translateY(-3px);
-}
-.menu-card .card-icon { font-size: 34px; margin-bottom: 8px; }
-.menu-card h3 { color: var(--white); margin-bottom: 6px; font-size: 17px; font-weight: 700; }
-.menu-card p { font-size: 13px; color: rgba(255, 255, 255, 0.75); line-height: 1.4; }
-
-/* Cards Brancos com Indicadores Coloridos */
-.card { background: var(--white); padding: 16px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
-.card h3 { 
-    margin-bottom: 15px; 
-    font-size: 16px; 
-    border-left: 4px solid var(--orange-main); /* Detalhe Laranja Lateral */
-    padding-left: 8px; 
-    color: var(--blue-main); /* Título do Bloco em Azul Escuro */
-    font-weight: 700;
+.form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
 }
 
-/* Banner Alerta */
-.alert-banner { background: #fff3cd; border-left: 5px solid var(--orange-main); padding: 12px; border-radius: 8px; display: flex; gap: 10px; margin-bottom: 15px; }
-.alert-icon { font-size: 20px; }
-.alert-content h4 { font-size: 14px; color: #856404; }
-.alert-content ul { list-style: none; font-size: 12px; margin-top: 4px; color: #856404; }
-
-/* Tabelas e Consulta */
-.table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.modern-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.modern-table th { background: #f1f5f9; padding: 10px; font-weight: 600; text-align: left; color: var(--blue-main); }
-.modern-table td { padding: 10px; border-bottom: 1px solid #e2e8f0; }
-
-.setor-card { margin-top: 15px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; }
-.setor-header { background: var(--blue-main); color: white; padding: 10px 12px; font-weight: bold; font-size: 14px; }
-.sub-header { background: #f8fafc; color: var(--orange-hover); font-weight: bold; padding: 6px 12px; font-size: 12px; border-bottom: 1px solid #e2e8f0; }
-
-.prod-row-mobile { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #f1f5f9; background: #fff; }
-.prod-row-mobile.urgente { 
-    background: #fff5f5 !important; 
-    border-left: 5px solid var(--danger) !important;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-}
-.prod-info-meta { font-size: 12px; color: #64748b; margin-top: 2px; }
-
-/* Modais Customizados Modernos */
-.modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(15, 32, 66, 0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 20px;
-}
-.modal-box {
-    background: white; padding: 20px; border-radius: 12px; width: 100%; max-width: 320px; text-align: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 4px solid var(--blue-main);
-}
-.modal-box h3 { margin-bottom: 10px; color: var(--blue-main); font-size: 18px; }
-.modal-box p { margin-bottom: 15px; font-size: 14px; color: #475569; }
-.link { color: var(--orange-main); cursor: pointer; text-decoration: underline; font-weight: 600; }
-
-/* Estrutura de Listas Interativas na Consulta */
-#lista-secoes-interativas {
+.form-group {
+    flex: 1;
+    min-width: 200px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
 }
 
-/* Cards das Subseções na Consulta */
+.form-group-codigo { flex: 0 0 130px; }
+.form-group-descricao { flex: 1; }
+
+/* Botões Modernos e Escaláveis */
+.btn-primary {
+    background-color: var(--blue-main);
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    width: 100%;
+    max-width: 280px; /* Botões agora têm tamanho elegante e não tomam a tela toda sozinhos */
+    display: block;
+    margin: 10px 0;
+    transition: all 0.2s ease;
+    touch-action: manipulation;
+    text-align: center;
+}
+
+/* Alinhamento de botões de formulário */
+#form-produto .btn-primary {
+    max-width: 100%; /* Mantém preenchido apenas quando está confinado no formulário */
+}
+
+.btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0) scale(0.98); }
+
+.btn-orange {
+    background-color: var(--orange-main) !important;
+    color: white !important;
+}
+.btn-orange:hover { background-color: var(--orange-hover) !important; }
+
+.btn-back {
+    background: none;
+    border: none;
+    color: var(--blue-main);
+    font-weight: bold;
+    margin-bottom: 20px;
+    cursor: pointer;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.btn-back:hover { color: var(--orange-main); }
+
+/* --- CARTÕES DE CONTEÚDO (CARDS) --- */
+.card {
+    background: var(--white);
+    padding: 35px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 25px;
+    border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+.card h3 {
+    margin-bottom: 24px;
+    color: var(--blue-main);
+    font-weight: 700;
+    font-size: 20px;
+    border-left: 4px solid var(--orange-main);
+    padding-left: 10px;
+}
+
+/* --- TABELAS MODERNAS --- */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.modern-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: var(--white);
+}
+
+.modern-table th, .modern-table td {
+    padding: 16px;
+    text-align: left;
+}
+
+.modern-table th {
+    background-color: #f8fafc;
+    color: var(--blue-main);
+    font-weight: 700;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.modern-table td {
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.btn-acao-tabela {
+    padding: 8px 12px;
+    font-size: 13px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    color: #fff;
+}
+
+.btn-acao-edit { background-color: var(--blue-main); }
+.btn-acao-edit:hover { background-color: var(--blue-dark); }
+
+/* --- ESTRUTURA DE LISTAS INTERATIVAS NA CONSULTA --- */
+#lista-secoes-interativas {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+@media(min-width: 768px) {
+    #lista-secoes-interativas { grid-template-columns: 1fr 1fr; } /* Seções divididas em 2 colunas para poupar rolagem */
+}
+
 .btn-secao-link {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: var(--white);
-    padding: 14px 18px;
+    padding: 16px 20px;
     border: 1.5px solid var(--border-color);
-    border-left: 5px solid var(--blue-main); /* Detalhe Esquerdo Azul */
-    border-radius: 8px;
+    border-left: 5px solid var(--blue-main); 
+    border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
     font-size: 14px;
-    color: var(--blue-main); /* Texto Azul Escuro */
+    color: var(--blue-main); 
     transition: all 0.2s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
-}
-.btn-secao-link:hover {
-    border-color: var(--orange-main);
-    background-color: #f8fafc;
-    transform: translateY(-1px);
-}
-.btn-secao-link:active {
-    transform: translateY(0);
-    background-color: #f1f5f9;
 }
 
-/* Pequeno balão indicador laranja de lotes */
+.btn-secao-link:hover {
+    border-color: var(--orange-main);
+    background-color: #fdfdfd;
+    transform: translateX(3px); /* Efeito moderno de deslocamento lateral */
+}
+
 .btn-secao-link .badge-qtd {
-    background: rgba(255, 122, 0, 0.1); /* Fundo Laranja Suave */
-    color: var(--orange-main); /* Texto Laranja Vivo */
-    padding: 4px 10px;
+    background: rgba(255, 140, 0, 0.1); 
+    color: var(--orange-main); 
+    padding: 4px 12px;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 700;
-    border: 1px solid rgba(255, 122, 0, 0.15);
+    border: 1px solid rgba(255, 140, 0, 0.15);
 }
 
-/* Modificadores Dinâmicos de Alerta para Vencimento Crítico */
 .btn-secao-link.alerta-vencimento {
     background: #fff5f5 !important;
     border-color: var(--danger) !important;
     border-left-color: var(--danger) !important;
     color: var(--danger) !important;
-    box-shadow: 0 2px 8px rgba(231, 76, 60, 0.15);
 }
-
 
 .btn-secao-link.alerta-vencimento .badge-qtd {
     background: var(--danger) !important;
@@ -901,40 +553,55 @@ label { font-size: 13px; font-weight: 600; color: #475569; }
     border-color: var(--danger) !important;
 }
 
-
 .status-esgotado {
     background-color: #f1f5f9 !important;
     color: #94a3b8 !important;
-    opacity: 0.75;
+    opacity: 0.8;
 }
 
+/* --- PRODUTOS EM FILAS --- */
+.setor-card { margin-top: 20px; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); }
+.setor-header { background: var(--blue-main); color: white; padding: 12px 16px; font-weight: bold; font-size: 15px; }
+.sub-header { background: #f8fafc; color: var(--orange-hover); font-weight: bold; padding: 8px 16px; font-size: 13px; border-bottom: 1px solid #e2e8f0; }
 
-.status-esgotado .badge-qtd {
-    background: #e2e8f0 !important;
-    color: #94a3b8 !important;
-    border-color: #cbd5e1 !important;
-}
-.prod-row-mobile.esgotado {
-    background-color: #f8fafc !important;
-    border-left: 5px solid #94a3b8 !important;
-    color: #94a3b8 !important;
-}
-.text-esgotado {
-    color: #94a3b8;
-    font-style: italic;
-    font-weight: 600;
+.prod-row-mobile { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #f1f5f9; background: #fff; gap: 15px; }
+.prod-row-mobile .btn-primary { margin: 0; padding: 8px 16px; }
+
+.prod-row-mobile.urgente { 
+    background: #fff5f5 !important; 
+    border-left: 5px solid var(--danger) !important;
 }
 
-/* Botões pequenos de ação na tabela de cadastro */
-.btn-acao-tabela {
-    padding: 6px 10px;
-    font-size: 12px;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    color: #fff;
-    margin-right: 4px;
+.prod-info-meta { font-size: 12px; color: #64748b; margin-top: 2px; }
+
+/* --- MODAIS CUSTOMIZADOS --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 35, 75, 0.4); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 20px;
 }
-.btn-acao-edit { background-color: var(--blue-main); }
-.btn-acao-edit:hover { background-color: var(--blue-dark); }
+.modal-box {
+    background: white; padding: 30px; border-radius: var(--radius); width: 100%; max-width: 360px; text-align: center;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15); border-top: 5px solid var(--blue-main);
+}
+.modal-box h3 { margin-bottom: 12px; color: var(--blue-main); font-size: 20px; }
+.modal-box p { margin-bottom: 20px; font-size: 14px; color: #475569; }
+.modal-box .btn-primary { margin: 0 auto; }
+
+.link { color: var(--orange-main); cursor: pointer; text-decoration: underline; font-weight: 600; }
+
+/* --- ÁREA DO SCANNER --- */
+.btn-scanner-foco {
+    background: var(--primary) !important;
+    color: #ffffff !important;
+    border: 2px solid var(--orange-main) !important; 
+    border-radius: 8px !important;
+    padding: 14px !important;
+    max-width: 450px;
+    margin: 0 auto 15px auto;
+    transition: all 0.2s ease;
+}
+.btn-scanner-foco:hover {
+    background: var(--accent) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
