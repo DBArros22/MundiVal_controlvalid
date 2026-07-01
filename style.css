@@ -605,3 +605,161 @@ label { font-size: 13px; font-weight: 600; color: #475569; }
     transform: translateY(-2px);
     box-shadow: var(--shadow);
 }
+
+.btn-theme-toggle {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    font-size: 18px;
+    padding: 8px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    align-self: flex-end;
+}
+.btn-theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+@media(min-width: 768px) {
+    .btn-theme-toggle { align-self: center; }
+}
+
+/* --- REGRAS DO MODO ESCURO (Apenas substitui fundos claros e textos) --- */
+body.dark-mode {
+    background-color: #121824; /* Fundo escuro profundo moderno */
+    color: #f1f5f9;
+}
+
+/* Deixa a imagem com o fundo branco transparente ou suavizada no modo escuro */
+body.dark-mode::before {
+    opacity: 0.15;
+    filter: blur(12px) invert(0.9) hue-rotate(180deg); /* Ajusta a logo para contrastar no escuro */
+}
+
+/* Transforma os cards brancos em cinza escuro de alta qualidade */
+body.dark-mode .card, 
+body.dark-mode .auth-box,
+body.dark-mode .modal-box,
+body.dark-mode .btn-secao-link,
+body.dark-mode .prod-row-mobile {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    color: #f1f5f9 !important;
+}
+
+body.dark-mode .card h3,
+body.dark-mode .auth-box h3,
+body.dark-mode .modal-box h3,
+body.dark-mode .btn-secao-link {
+    color: #f1f5f9 !important;
+}
+
+/* Entradas de dados e selects adaptados */
+body.dark-mode input, 
+body.dark-mode select {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    color: #f1f5f9 !important;
+}
+body.dark-mode input[readonly] {
+    background-color: #0f172a !important;
+    color: #94a3b8 !important;
+}
+body.dark-mode label {
+    color: #94a3b8;
+}
+
+/* Tabelas no modo escuro */
+body.dark-mode .modern-table {
+    background-color: #1e293b !important;
+}
+body.dark-mode .modern-table th {
+    background-color: #0f172a !important;
+    color: #346ec9 !important;
+    border-bottom-color: #334155 !important;
+}
+body.dark-mode .modern-table td {
+    border-bottom-color: #334155 !important;
+}
+
+/* Suaviza o texto secundário */
+body.dark-mode .menu-card p,
+body.dark-mode .prod-info-meta,
+body.dark-mode .auth-switch {
+    color: #94a3b8 !important;
+}
+
+/* Design */
+
+.icon-platinum {
+    /* Escurecido sutilmente a base do gradiente para destacar contra o branco */
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 30%, #64748b 70%, #475569 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* Sombra escura bem definida e suave que cria um "contorno" de contraste no ícone */
+    filter: drop-shadow(0px 3px 4px rgba(15, 32, 66, 0.25));
+    display: inline-block;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Efeito de brilho e destaque ao passar o mouse nos cards */
+.menu-card:hover .icon-platinum {
+    transform: scale(1.08) rotate(1deg);
+    /* No hover, o ícone ganha um reflexo levemente azulado do tema para dar vida */
+    filter: drop-shadow(0px 5px 10px rgba(37, 84, 163, 0.35)) brightness(0.9);
+}
+
+/* Ajuste de tamanho para os ícones grandes dos Cards */
+.menu-card .icon-platinum {
+    font-size: 52px;
+    margin-bottom: 20px;
+}
+
+/* Ajuste para ícones menores dentro de botões e textos */
+.btn-header .fa-solid, 
+.btn-scanner-foco .fa-solid {
+    font-size: 14px;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+.alert-icon .icon-platinum {
+    font-size: 28px;
+    background: linear-gradient(135deg, #ffe259 0%, #ffa751 100%); /* Alerta ganha um platinado dourado */
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* alerta critico de validade */ 
+
+@keyframes pulsarAlertaVermelho {
+    0% {
+        background-color: #fff5f5;
+        box-shadow: inset 0 0 0 2px rgba(231, 76, 60, 0.2);
+    }
+    50% {
+        background-color: #fecaca; /* Vermelho mais intenso no meio da animação */
+        box-shadow: inset 0 0 0 2px rgba(231, 76, 60, 0.6);
+    }
+    100% {
+        background-color: #fff5f5;
+        box-shadow: inset 0 0 0 2px rgba(231, 76, 60, 0.2);
+    }
+}
+
+/* Classe que aplica o efeito de piscar na linha da tabela ou item da lista */
+.urgente-pisca {
+    animation: pulsarAlertaVermelho 1.5s infinite ease-in-out !important;
+    border-left: 5px solid var(--danger) !important;
+    color: #991b1b !important; /* Texto em tom vermelho escuro para leitura ideal */
+}
+
+/* Garante que se for um link de seção interativa, o efeito também se aplique corretamente */
+.btn-secao-link.urgente-pisca .badge-qtd {
+    background: var(--danger) !important;
+    color: var(--white) !important;
+} 
+
