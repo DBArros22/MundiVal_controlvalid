@@ -6,6 +6,18 @@ const bancoProdutos = {
     "1005": "Iogurte de Morango 500g"
 };
 
+// alerta critico 
+
+let classeAlerta = "";
+
+if (diffDays <= 3 && diffDays >= 0) {
+    // Se estiver a 3 dias ou menos do vencimento, pisca na tela
+    classeAlerta = "urgente-pisca";
+} else if (diffDays <= 5 && diffDays >= 0) {
+    // Se estiver entre 4 e 5 dias, mantém apenas vermelho estático
+    classeAlerta = "urgente"; 
+}
+
 const OPERADOR_PADRAO = { matricula: "op", nome: "Operador Geral", perfil: "operador", senha: "123" };
 let usuarioLogado = null;
 
@@ -34,12 +46,65 @@ function fecharModal() {
 
 // Fluxo de Modais para Troca de Senha (Substitui o prompt)
 function abrirModalSenha() {
-    document.getElementById("modal-new-password").value = "";
+    // Limpa todos os campos antes de exibir o modal
+    if (document.getElementById("modal-current-password")) document.getElementById("modal-current-password").value = "";
+    if (document.getElementById("modal-new-password")) document.getElementById("modal-new-password").value = "";
+    if (document.getElementById("modal-confirm-password")) document.getElementById("modal-confirm-password").value = "";
+    
     document.getElementById("password-modal").classList.remove("hidden");
 }
+
 function fecharModalSenha() {
     document.getElementById("password-modal").classList.add("hidden");
 }
+
+function processarAlterarSenha() {
+    const atual = document.getElementById("modal-current-password").value;
+    const nova = document.getElementById("modal-new-password").value.trim();
+    const confirmacao = document.getElementById("modal-confirm-password").value;
+
+    if (!atual || !nova || !confirmacao) {
+        return dispararModal("Aviso", "Por favor, preencha todos os campos para continuar.");
+    }
+
+    // 1. Verifica se a senha atual digitada corresponde à senha do usuário logado
+    if (atual !== usuarioLogado.senha) {
+        return dispararModal("Erro", "A senha atual inserida está incorreta.");
+    }
+
+    // 2. Garante que a nova senha seja diferente da antiga
+    if (nova === atual) {
+        return dispararModal("Aviso", "A nova senha não pode ser igual à senha atual.");
+    }
+
+    // 3. Valida a identidade das duas novas senhas inseridas
+    if (nova !== confirmacao) {
+        return dispararModal("Erro", "A nova senha e a confirmação não coincidem.");
+    }
+    
+    // Atualiza o banco de dados local (localStorage)
+    let lista = JSON.parse(localStorage.getItem("usuarios")) || [];
+    let idx = lista.findIndex(u => u.matricula === usuarioLogado.matricula);
+    
+    if (idx !== -1) {
+        lista[idx].senha = nova;
+        localStorage.setItem("usuarios", JSON.stringify(lista));
+        
+        // Atualiza a sessão em tempo de execução
+        usuarioLogado.senha = nova;
+        
+        fecharModalSenha();
+        dispararModal("Sucesso", "Sua senha foi atualizada com sucesso!");
+    } else {
+        dispararModal("Erro", "Usuário não encontrado no sistema.");
+    }
+}
+
+
+function fecharModalSenha() {
+    document.getElementById("password-modal").classList.add("hidden");
+}
+
 function processarAlterarSenha() {
     const nova = document.getElementById("modal-new-password").value.trim();
     if (!nova) return dispararModal("Aviso", "Preencha uma nova senha válida!");
@@ -424,7 +489,18 @@ function verificarAlertasGlobais() {
         if (diffDays <= 7) {
             contadorAlertas++;
             let li = document.createElement("li");
+            
+            // Define o texto base do alerta
             li.innerHTML = `• <strong>${p.descricao}</strong> (Lote ${p.lote}) vence em ${diffDays} dias no setor ${p.setor}.`;
+            
+            // SEGUNDO AJUSTE: Se faltar 3 dias ou menos, adiciona a classe para piscar
+            if (diffDays <= 3) {
+                li.classList.add("urgente-pisca");
+                li.style.padding = "4px 8px";       /* Pequeno ajuste para a animação de fundo ficar bonita */
+                li.style.borderRadius = "4px";
+                li.style.margin = "4px 0";
+            }
+            
             listaAlertas.appendChild(li);
         }
     });
@@ -651,5 +727,68 @@ document.addEventListener("DOMContentLoaded", function() {
                 buscarProdutoPorCodigoBarrasDigitado();
             }
         });
+    }
+
+    const inputLoginMatricula = document.getElementById("login-matricula");
+if (inputLoginMatricula) {
+    inputLoginMatricula.addEventListener("keyup", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            fazerLogin();
+        }
+    });
+}
+
+const inputLoginSenha = document.getElementById("login-senha");
+if (inputLoginSenha) {
+    inputLoginSenha.addEventListener("keyup", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            fazerLogin();
+        }
+    });
+}
+
+});
+
+// Função botão tema 
+
+function alternarTema() {
+    const body = document.body;
+    const btnApp = document.getElementById("theme-toggle");
+    const btnAuth = document.getElementById("theme-toggle-auth");
+    
+    body.classList.toggle("dark-mode");
+    const estaEscuro = body.classList.contains("dark-mode");
+    
+    // Altera as classes de ícones dinamicamente nos dois botões
+    const htmlIcone = estaEscuro ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+    
+    if (btnApp) btnApp.innerHTML = htmlIcone;
+    if (btnAuth) btnAuth.innerHTML = htmlIcone;
+    
+    localStorage.setItem("temaMundiVal", estaEscuro ? "escuro" : "claro");
+}
+
+// Sincronização automática na inicialização da página
+document.addEventListener("DOMContentLoaded", function() {
+    const temaSalvo = localStorage.getItem("temaMundiVal");
+    if (temaSalvo === "escuro") {
+        document.body.classList.add("dark-mode");
+        const htmlIcone = '<i class="fa-solid fa-sun"></i>';
+        const btnApp = document.getElementById("theme-toggle");
+        const btnAuth = document.getElementById("theme-toggle-auth");
+        if (btnApp) btnApp.innerHTML = htmlIcone;
+        if (btnAuth) btnAuth.innerHTML = htmlIcone;
+    }
+});
+
+// Opcional: Mantém a escolha do usuário mesmo se ele atualizar a página
+document.addEventListener("DOMContentLoaded", function() {
+    const temaSalvo = localStorage.getItem("temaMundiVal");
+    if (temaSalvo === "escuro") {
+        document.body.classList.add("dark-mode");
+        const btn = document.getElementById("theme-toggle");
+        if (btn) btn.innerText = "☀️";
     }
 });
